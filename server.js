@@ -25,6 +25,42 @@ app.get('/', function (req, res) {
   res.render('index',{titles: titles});
 });
 
+
+app.get('/start', (req, res) => {
+  res.render("start")
+})
+
+app.get("/login",(req,res)=>{
+  res.render("login")
+})
+app.get("/reg",(req,res)=>{
+  res.render("reg")
+})
+app.get("/admin",(req,res)=>{
+  res.render("admin")
+})
+
+app.post("/login", (req, res) => {
+  res.render("login")
+})
+app.post("/reg", (req, res) => {
+  res.render("reg")
+})
+app.post("/admin", (req, res) => {
+  res.render("admin")
+})
+
+app.get('/ahome', (req, res) => {
+  var readQuiz = fs.readFileSync("data/allQuizzes.json", 'utf8');
+  var jsonContent = JSON.parse(readQuiz);
+  var titles = [];
+  for (var i = 0; i < jsonContent.length; i++) {
+    titles[i] = jsonContent[i]["title"];
+  }
+  res.render('ahome', { titles: titles });
+})
+
+
 app.get('/,/quiz', function (req, res) {
   var readQuiz = fs.readFileSync("data/allQuizzes.json", 'utf8');
   var jsonContent = JSON.parse(readQuiz);
@@ -34,6 +70,8 @@ app.get('/,/quiz', function (req, res) {
   }
   res.send(JSON.stringify(titles));
 });
+
+
 
 app.post('/quiz', function(req, res){
   var sentQuiz = req.body;
@@ -45,8 +83,7 @@ app.post('/quiz', function(req, res){
   jsonContent.push(sentQuiz);
 
   var jsonString = JSON.stringify(jsonContent);
-  fs.writeFile("data/allQuizzes.json", jsonString);
-
+  fs.writeFile("data/allQuizzes.json", jsonString, () => { });
   res.send("updated");
 });
 
@@ -75,7 +112,7 @@ app.put('/quiz/:id', function (req, res) {
   }
 
   var jsonString = JSON.stringify(jsonContent);
-  fs.writeFile("data/allQuizzes.json", jsonString);
+  fs.writeFile("data/allQuizzes.json", jsonString, () => { });
 
   res.send("updated");
 });
@@ -90,7 +127,7 @@ app.delete('/quiz/:id', function (req, res) {
     }
   }
   var jsonString = JSON.stringify(jsonContent);
-  fs.writeFile("data/allQuizzes.json", jsonString);
+  fs.writeFile("data/allQuizzes.json", jsonString, () => { });
   res.send("deleted");
 });
 
@@ -98,13 +135,13 @@ app.get('/reset', function (req, res) {
   var readIn = fs.readFileSync("data/defaultallquizzes.json", 'utf8');
   // var readInAdded = fs.readFileSync("data/allQuizzes.json", 'utf8');
   // fs.writeFile("data/allQuizzesRevert.json", readInAdded);
-  fs.writeFile("data/allQuizzes.json", readIn);
+  fs.writeFile("data/allQuizzes.json", readIn, () => { });
   res.send("default quizzes restored");
 });
 
 app.get('/revert', function (req, res) {
   var readIn = fs.readFileSync("data/allQuizzesRevert.json", 'utf8');
-  fs.writeFile("data/allQuizzes.json", readIn);
+  fs.writeFile("data/allQuizzes.json", readIn, () => { });
   res.send("reverted");
 });
 
@@ -115,7 +152,7 @@ app.get('/users', function (req, res) {
 
 app.post('/users', function(req, res){
   var jsonString = JSON.stringify(req.body);
-  fs.writeFile("data/users.json", jsonString);
+  fs.writeFile("data/users.json", jsonString, () => { });
   res.send(req.body);
 });
 
