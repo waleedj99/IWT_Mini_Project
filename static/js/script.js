@@ -80,7 +80,8 @@ $(document).ready(function() {
   //create quiz
   document.getElementById("create_quiz").addEventListener("click", function(e) {
     // console.log("create");
-    if ($("#createquizsubmit").length) {
+    e.preventDefault();
+    if (true) {
       if ($('#editQuiz').is(":hidden")) {
         loadQuizToCreate();
       } 
@@ -91,7 +92,7 @@ $(document).ready(function() {
     else {
       loadQuizToCreate();
     }
-    e.preventDefault();
+    return false;
   });
 
   //update quiz
@@ -102,7 +103,7 @@ $(document).ready(function() {
     selectedQuiz = ids[titles.indexOf($('#titlesDropdown option:selected').text())];
     // if there exists a quiz
     if (selectedQuiz > -1) {
-      if ($("#createquizsubmit").length) {
+      if (true) {
         loadQuizToEdit(selectedQuiz);
       }
       else {
@@ -352,7 +353,7 @@ $(document).ready(function() {
 });
 // After name is submitted on initial screen
 function nameForm(){
-  name = $('#nameForm').serializeArray()[0]["value"];
+  name = "name"//username
   if (name.length === 0) {
     $('#firstName').css({ "border": '1px solid #FF0000'});
     $('#nameFormWarning').show();
@@ -456,7 +457,7 @@ function resetQuizzes() {
 // load target quiz json
 function loadQuiz(target){
   $.getJSON('quiz/' + target)
-  .done(function (data) {
+  .done(function (data) {f
     $('#ajaxloading').hide();
     $('#backHome').hide();
     $('#reload').hide();
